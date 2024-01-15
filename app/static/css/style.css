@@ -73,3 +73,10 @@ main {
     height: 150px;
     /* Adjust this value as needed */
 }
+
+.logo {
+    height: 80px;
+    /* Adjust the size as needed */
+    width: auto;
+    /* Additional styling as needed */
+}

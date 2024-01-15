@@ -11,6 +11,10 @@
     <header>
         <!-- Navigation bar -->
         <nav>
+            <!-- Logo Image -->
+            <a href="{{ url_for('home') }}">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="Astro Robotics" class="logo">
+            </a>
             <ul>
                 <li><a href="{{ url_for('home') }}">Home</a></li>
                 <li><a href="{{ url_for('about') }}">About</a></li>
