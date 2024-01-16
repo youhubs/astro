@@ -6,6 +6,10 @@ body {
     box-sizing: border-box;
 }
 
+main {
+    padding: 20px;
+}
+
 header,
 footer {
     background-color: #333;
@@ -14,23 +18,45 @@ footer {
     padding: 1em 0;
 }
 
-nav ul {
+nav {
+    display: flex;
+    align-items: center;
+    /* Aligns items vertically */
+    justify-content: space-between;
+    /* Spreads out the logo and menu */
+}
+
+.nav-brand {
+    /* Styling for the brand/logo area */
     list-style: none;
-    padding: 0;
+    display: flex;
+    align-items: center;
 }
 
-nav ul li {
-    display: inline;
+.nav-menu {
+    /* Styling for the navigation menu */
+    list-style: none;
+    display: flex;
+    align-items: center;
+    /* Aligns menu items vertically */
+}
+
+.nav-menu li {
     margin-right: 20px;
+    /* Spacing between menu items */
 }
 
-nav ul li a {
-    color: white;
+.nav-menu li a {
     text-decoration: none;
+    color: white;
+    /* Additional link styling */
 }
 
-main {
-    padding: 20px;
+.logo {
+    height: 120px;
+    /* Adjust the size as needed */
+    width: auto;
+    /* Additional styling as needed */
 }
 
 .contact-container {
@@ -72,11 +98,4 @@ main {
 .form-control.textarea {
     height: 150px;
     /* Adjust this value as needed */
-}
-
-.logo {
-    height: 80px;
-    /* Adjust the size as needed */
-    width: auto;
-    /* Additional styling as needed */
 }

@@ -1,8 +1,8 @@
-from app import app
+from datetime import datetime
 from flask import render_template
 from flask import render_template, redirect, url_for, flash
 
-from app import db
+from app import app, db
 from .forms import ContactForm, RegistrationForm
 from .models import Event, Student, Registration
 
@@ -35,10 +35,11 @@ def contact():
 
 
 # Events Page Route
-@app.route("/events")
+@app.route('/events')
 def events():
+    current_time = datetime.now()
     events = Event.query.order_by(Event.date.desc()).all()
-    return render_template("events.html", events=events)
+    return render_template('events.html', events=events, current_time=current_time)
 
 
 # Registration Route
