@@ -3,5 +3,19 @@
 {% block content %}
 <h1>Welcome to Astro Robotics</h1>
 <p>Engaging and innovative robotics education for all ages.</p>
-<!-- More content -->
+<div class="photo-grid">
+    <!-- Repeat this block for each photo -->
+    <div class="photo-item">
+        <img src="{{ url_for('static', filename='images/champion1.jpeg') }}" alt="Robotics1">
+    </div>
+    <div class="photo-item">
+        <img src="{{ url_for('static', filename='images/champion2.jpeg') }}" alt="Robotics2">
+    </div>
+    <div class="photo-item">
+        <img src="{{ url_for('static', filename='images/champion2.jpeg') }}" alt="Robotics2">
+    </div>
+    <div class="photo-item">
+        <img src="{{ url_for('static', filename='images/champion2.jpeg') }}" alt="Robotics2">
+    </div>
+</div>
 {% endblock %}

@@ -10,8 +10,7 @@ main {
     padding: 20px;
 }
 
-header,
-footer {
+header {
     background-color: #333;
     color: white;
     text-align: center;
@@ -98,4 +97,54 @@ nav {
 .form-control.textarea {
     height: 150px;
     /* Adjust this value as needed */
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 2px 0;
+}
+
+.footer-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.contact-info {
+    list-style: none;
+    padding: 0;
+}
+
+.contact-info li {
+    margin: 5px 0;
+}
+
+.photo-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    /* This will space out the images evenly */
+    padding: 0;
+}
+
+.photo-item {
+    flex-basis: calc(50% - 20px);
+    /* Adjust for two images per row, assuming 20px total margin */
+    margin: 10px;
+    /* This gives 10px margin on all sides of each photo */
+    box-sizing: border-box;
+}
+
+.photo-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+@media (max-width: 600px) {
+    .photo-item {
+        flex-basis: calc(100% - 20px);
+        /* Full width on small screens */
+    }
 }
