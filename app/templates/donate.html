@@ -1,0 +1,29 @@
+{% extends 'components/base.html' %}
+
+{% block content %}
+    <h1>Support Astro Robotics</h1>
+    <p>Your donation helps us continue our work in innovative robotics education.</p>
+    <!-- PayPal Donation Button -->
+    <form action="https://www.paypal.com/donate/?hosted_button_id=H979JTWVAYA34" method="post">
+        <button type="submit" class="paypal-donate-button">Donate with PayPal</button>
+    </form>
+    <div class="kroger-image">
+        <img src="{{ url_for('static', filename='images/kroger.jpeg') }}" alt="Kroger Plus Card" class="responsive-image">
+    </div>
+    <h2>Do you have a Kroger Plus card?</h2>
+    <!-- Kroger Support Information -->
+    <div class="kroger-support">
+        <p>Link your Kroger's Plus Shopper's Card to Astro Robotics Kroger Community Rewards account. For every purchase our supporters make at Kroger, Kroger will donate some percentages to Astro Robotics. Your spending information is 100% confidential and Kroger does not share this information with any organization which it funds.</p>
+        <p>Register online at <a href="https://www.kroger.com" target="_blank" rel="noopener noreferrer">kroger.com</a>.</p>
+        <ul>
+            <li>Login to your Kroger account using your email address/password.</li>
+            <li>Under "My Account", click on "Community Rewards".</li>
+            <li>Search for "Astro Robotics" either by name or <strong>MW141</strong>, then click "Enroll".</li>
+            <li>You will see "Astro Robotics" on your Donation Summary.</li>
+        </ul>
+        <p><strong>*Enrolling in this program DOES NOT affect your fuel points earnings and needs to be updated annually.</strong></p>
+        <p><strong>*Kroger requires that you re-register your card with your chosen organization every year.</strong></p>
+        <p>Your support is very important for our growth and is greatly appreciated. More details can be found here <a href="https://www.kroger.com/i/community/community-rewards" target="_blank" rel="noopener">krogercommunityrewards.com</a>.</p>
+    </div>
+{% endblock %}
+
