@@ -1,0 +1,59 @@
+.paypal-donate-button {
+    background-color: #0070ba;
+    /* PayPal Blue */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.paypal-donate-button:hover {
+    background-color: #0051a5;
+}
+
+.kroger-support {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.kroger-support p,
+.kroger-support ul {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.kroger-support ul {
+    list-style-type: disc;
+    margin-left: 40px;
+    /* Adjusted for better alignment */
+    padding-left: 0;
+}
+
+.kroger-support ul li {
+    margin-bottom: 10px;
+    /* Space between list items */
+}
+
+.kroger-support a {
+    color: #0070ba;
+    /* PayPal Blue, or choose a color that matches your site */
+    text-decoration: none;
+}
+
+.kroger-support a:hover {
+    text-decoration: underline;
+}
+
+.kroger-image img {
+    max-width: 50%;
+    /* Adjusted to make the image smaller */
+    height: auto;
+    display: block;
+    margin: 0 auto 20px;
+    /* Center image and add margin below */
+}

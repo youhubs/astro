@@ -59,47 +59,6 @@ nav {
     /* Additional styling as needed */
 }
 
-.contact-container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.contact-form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-control {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.btn {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.btn:hover {
-    background-color: #0056b3;
-}
-
-.form-control.textarea {
-    height: 150px;
-    /* Adjust this value as needed */
-}
-
 footer {
     background-color: #333;
     color: white;
@@ -148,64 +107,4 @@ footer {
         flex-basis: calc(100% - 20px);
         /* Full width on small screens */
     }
-}
-
-.paypal-donate-button {
-    background-color: #0070ba;
-    /* PayPal Blue */
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.paypal-donate-button:hover {
-    background-color: #0051a5;
-}
-
-.kroger-support {
-    margin-top: 20px;
-    padding: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-}
-
-.kroger-support p,
-.kroger-support ul {
-    font-size: 16px;
-    line-height: 1.6;
-}
-
-.kroger-support ul {
-    list-style-type: disc;
-    margin-left: 40px;
-    /* Adjusted for better alignment */
-    padding-left: 0;
-}
-
-.kroger-support ul li {
-    margin-bottom: 10px;
-    /* Space between list items */
-}
-
-.kroger-support a {
-    color: #0070ba;
-    /* PayPal Blue, or choose a color that matches your site */
-    text-decoration: none;
-}
-
-.kroger-support a:hover {
-    text-decoration: underline;
-}
-
-.kroger-image img {
-    max-width: 50%;
-    /* Adjusted to make the image smaller */
-    height: auto;
-    display: block;
-    margin: 0 auto 20px;
-    /* Center image and add margin below */
 }
