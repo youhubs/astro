@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import EmailField, BooleanField, PasswordField, StringField, SubmitField, TextAreaField
-from wtforms.validators import DataRequired, Email
+from wtforms import EmailField, BooleanField, PasswordField, StringField, SubmitField, TextAreaField, ValidationError
+from wtforms.validators import DataRequired, Email, EqualTo
+from flask_wtf import FlaskForm
 
 
 # Flask-WTF forms for registration and event management
@@ -31,3 +32,13 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     remember_me = BooleanField('Remember Me')
     submit = SubmitField('Log In')
+
+
+class ChangePasswordForm(FlaskForm):
+    old_password = PasswordField('Old Password', validators=[DataRequired()])
+    new_password = PasswordField('New Password', validators=[
+        DataRequired(), 
+        EqualTo('confirm', message='Passwords must match')
+    ])
+    confirm = PasswordField('Repeat Password', validators=[DataRequired()])
+    submit = SubmitField('Update Password')

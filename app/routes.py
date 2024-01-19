@@ -4,7 +4,7 @@ from flask_login import login_user, current_user, logout_user, login_required, L
 from flask_mail import Mail, Message
 
 from . import app, db
-from .forms import ContactForm, LoginForm, RegistrationForm
+from .forms import ContactForm, ChangePasswordForm, LoginForm, RegistrationForm
 from .models import Event, Student, Registration, User
 
 login_manager = LoginManager()
@@ -95,3 +95,17 @@ def admin():
         return render_template('admin.html')
     return redirect(url_for('home'))  # Redirect non-admin users
 
+
+@app.route('/change-password', methods=['GET', 'POST'])
+@login_required
+def change_password():
+    form = ChangePasswordForm()
+    if form.validate_on_submit():
+        if current_user.verify_password(form.old_password.data):
+            current_user.password = form.new_password.data  # This uses the setter method from your User model
+            db.session.commit()
+            flash('Your password has been updated.')
+            return redirect(url_for('home'))  # Redirect to the homepage or admin dashboard
+        else:
+            flash('Invalid password.')
+    return render_template("change_password.html", form=form)
