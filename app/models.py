@@ -27,10 +27,10 @@ class Registration(db.Model):
 
 
 class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
     password_hash = db.Column(db.String(200), nullable=False)
-    role = db.Column(db.String(50))  # This can be 'admin', 'user', etc.
+    is_admin = db.Column(db.Boolean, default=False)
 
     @property
     def password(self):
@@ -42,6 +42,3 @@ class User(db.Model):
 
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
-
-    def is_admin(self):
-        return self.role == "admin"
