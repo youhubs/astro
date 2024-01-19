@@ -88,14 +88,6 @@ def logout():
     return redirect(url_for('home'))
 
 
-@app.route('/admin/')
-@login_required
-def admin():
-    if current_user.is_admin:  # Ensure current user is admin
-        return render_template('admin.html')
-    return redirect(url_for('home'))  # Redirect non-admin users
-
-
 @app.route('/change-password', methods=['GET', 'POST'])
 @login_required
 def change_password():

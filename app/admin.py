@@ -1,13 +1,20 @@
 import os
-from flask_admin import Admin
+from flask_admin import Admin, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
+from flask_login import current_user
 from werkzeug.security import generate_password_hash
 
 from . import app, db
 from .models import Event, Student, Registration, User
 
+
+class MyAdminIndexView(AdminIndexView):
+    """Create customized index view class"""
+    def is_accessible(self):
+        return current_user.is_authenticated
+
 # Initialize Flask-Admin
-admin = Admin(app, name="Astro", template_mode="bootstrap3")
+admin = Admin(app, name="Astro", template_mode="bootstrap3", index_view=MyAdminIndexView())
 admin.add_view(ModelView(Student, db.session))
 admin.add_view(ModelView(Event, db.session))
 admin.add_view(ModelView(Registration, db.session))
