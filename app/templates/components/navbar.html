@@ -1,14 +1,14 @@
 <!-- Navigation bar -->
 <nav>
-    <div class="nav-brand">
+    <div class="logo-container">
         <!-- Logo Image -->
         <a href="{{ url_for('home') }}">
-            <img src="{{ url_for('static', filename='logo.png') }}" alt="Astro Robotics" class="logo">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Astro Robotics" class="logo ml-4 dynamic-logo">
         </a>
     </div>
-    <ul class="nav-menu">
+    <ul class="nav-menu mt-4 mr-4">
         <li><a href="{{ url_for('home') }}">Home</a></li>
-        <li><a href="{{ url_for('about') }}">About Us</a></li>
+        <li><a href="{{ url_for('about') }}">About</a></li>
         <li><a href="{{ url_for('events') }}">Events</a></li>
         <li><a href="{{ url_for('donate') }}">Donate</a></li>
         <li><a href="{{ url_for('contact') }}">Contact Us</a></li>

@@ -1,7 +1,7 @@
 {% extends 'components/base.html' %}
 
 {% block content %}
-<h1>Upcoming Events</h1>
+<h1 class="mt-4 ml-4">Upcoming Events</h1>
 <ul>
     {% for event in events %}
     {% if event.date > current_time %}
@@ -15,18 +15,15 @@
     {% endfor %}
 </ul>
 
-<h1>Past Events</h1>
+<h1 class="mt-4 ml-4">Past Events</h1>
 <ul>
     {% for event in events %}
-    {% if event.date <= current_time %}
-    <li>
+    {% if event.date <= current_time %} <li>
         <h2>{{ event.title }}</h2>
         <p>{{ event.description }}</p>
         <p><strong>Date:</strong> {{ event.date.strftime('%Y-%m-%d %H:%M') }}</p>
-    </li>
-    {% endif %}
-    {% endfor %}
+        </li>
+        {% endif %}
+        {% endfor %}
 </ul>
-    <img src="{{ url_for('static', filename='images/about.jpg') }}" alt="About"
-        style="width:100%;max-width:600px;height:auto;">
 {% endblock %}
