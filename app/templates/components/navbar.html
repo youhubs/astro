@@ -3,7 +3,8 @@
     <div class="logo-container">
         <!-- Logo Image -->
         <a href="{{ url_for('home') }}">
-            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Astro Robotics" class="logo ml-4 dynamic-logo">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Astro Robotics"
+                class="logo ml-4 dynamic-logo">
         </a>
     </div>
     <ul class="nav-menu mt-4 mr-4">
@@ -12,5 +13,12 @@
         <li><a href="{{ url_for('events') }}">Events</a></li>
         <li><a href="{{ url_for('donate') }}">Donate</a></li>
         <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
+        {% if current_user.is_authenticated %}
+        <!-- Show Logout if user is authenticated -->
+        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        {% else %}
+        <!-- Show Login if user is not authenticated -->
+        <li><a href="{{ url_for('login') }}">Login</a></li>
+        {% endif %}
     </ul>
 </nav>

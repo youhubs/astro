@@ -1,15 +1,20 @@
 from datetime import datetime
 from flask import render_template, redirect, request, url_for, flash
+from flask_login import login_user, current_user, logout_user, login_required, LoginManager
 from flask_mail import Mail, Message
 
 from . import app, db
-from .forms import ContactForm, RegistrationForm
-from .models import Event, Student, Registration
+from .forms import ContactForm, LoginForm, RegistrationForm
+from .models import Event, Student, Registration, User
 
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
 mail = Mail(app)
 
 
 @app.route("/")
+@app.route("/home")
 def home():
     return render_template("home.html")
 
@@ -56,3 +61,37 @@ def register(event_id):
         flash("Registration successful!", "success")
         return redirect(url_for("events"))
     return render_template("register.html", form=form, event=event)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user is not None and user.verify_password(form.password.data):
+            login_user(user, remember=form.remember_me.data)
+            return redirect(url_for('home'))  # or 'admin' if user is admin
+        flash('Invalid username or password')
+    return render_template('login.html', form=form)
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
+
+
+@app.route('/admin/')
+@login_required
+def admin():
+    if current_user.is_admin:  # Ensure current user is admin
+        return render_template('admin.html')
+    return redirect(url_for('home'))  # Redirect non-admin users
+
