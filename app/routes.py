@@ -65,14 +65,14 @@ def register(event_id):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if current_user.is_authenticated:
-        return redirect(url_for('home'))
+    # if current_user.is_authenticated:
+    #     return redirect(url_for('change_password'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user is not None and user.verify_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
-            return redirect(url_for('home'))  # or 'admin' if user is admin
+            return redirect(url_for('login'))  # or 'admin' if user is admin
         flash('Invalid username or password')
     return render_template('login.html', form=form)
 
