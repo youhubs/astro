@@ -4,42 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Astro Robotics</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/carousel.css') }}">
     <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
 </head>
+
 <body>
-    <header>
-        <!-- Navigation bar -->
-        <nav>
-            <div class="nav-brand">
-                <!-- Logo Image -->
-                <a href="{{ url_for('home') }}">
-                    <img src="{{ url_for('static', filename='logo.png') }}" alt="Astro Robotics" class="logo">
-                </a>
-            </div>
-            <ul class="nav-menu">
-                <li><a href="{{ url_for('home') }}">Home</a></li>
-                <li><a href="{{ url_for('about') }}">About</a></li>
-                <li><a href="{{ url_for('events') }}">Events</a></li>
-                <li><a href="{{ url_for('donate') }}">Donate</a></li>
-                <li><a href="{{ url_for('contact') }}">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        {% block content %}
-        {% endblock %}
-    </main>
-<footer>
-    <div class="footer-content">
-        <div class="footer-content">
-            <h3>Contact Us</h3>
-            <ul class="contact-info">
-                <li><strong>Email:</strong> houstonastrorobotics@gmail.com</li>
-            </ul>
-        </div>
-        <p class="copyright">Copyright &copy; 2023 Astro Robotics 501(c)(3) - All Rights Reserved. </p>
-    </div>
-</footer>
+    {% include 'components/navbar.html' %}
+
+    {% block content %}
+        {% include 'components/carousel.html' %}
+    {% endblock %}
+
+    {% include 'components/footer.html' %}
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

@@ -3,5 +3,20 @@
 {% block content %}
     <h1>About Us</h1>
     <p>Astro Robotics is a non profit organization that provides education in robotics for youth students. The organization is organized exclusively for educational purposes under section 501(c)(3) of the Internal Revenue Code. The fundamental objective of Astro Robotics is to offer inclusive and easily accessible learning opportunities that foster creativity, critical thinking, and problem-solving skills among students. Through the establishment of an integrated robotics education ecosystem, the organization aims to promote the empowerment of young minds in the fields of robotics. </p>
-    <img src="{{ url_for('static', filename='images/about.jpg') }}" alt="About" style="width:100%;max-width:600px;height:auto;">
+
+    <div class="photo-grid">
+        <!-- Repeat this block for each photo -->
+        <div class="photo-item">
+            <img src="{{ url_for('static', filename='images/champion1.jpeg') }}" alt="Robotics1">
+        </div>
+        <div class="photo-item">
+            <img src="{{ url_for('static', filename='images/champion2.jpeg') }}" alt="Robotics2">
+        </div>
+        <div class="photo-item">
+            <img src="{{ url_for('static', filename='images/champion2.jpeg') }}" alt="Robotics2">
+        </div>
+        <div class="photo-item">
+            <img src="{{ url_for('static', filename='images/champion2.jpeg') }}" alt="Robotics2">
+        </div>
+    </div>
 {% endblock %}

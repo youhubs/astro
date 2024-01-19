@@ -1,0 +1,14 @@
+.my-carousel {
+    margin-top: 1px;
+    /* Adjust this value based on the height of your navbar */
+}
+
+/* Adjust the height of the carousel */
+.carousel-item .view {
+    min-height: 500px;
+    /* Adjust this value to increase the height */
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    /* Adjust as needed: could be 'top', 'bottom', 'center', etc. */
+}

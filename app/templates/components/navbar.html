@@ -1,0 +1,16 @@
+<!-- Navigation bar -->
+<nav>
+    <div class="nav-brand">
+        <!-- Logo Image -->
+        <a href="{{ url_for('home') }}">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Astro Robotics" class="logo">
+        </a>
+    </div>
+    <ul class="nav-menu">
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('about') }}">About</a></li>
+        <li><a href="{{ url_for('events') }}">Events</a></li>
+        <li><a href="{{ url_for('donate') }}">Donate</a></li>
+        <li><a href="{{ url_for('contact') }}">Contact</a></li>
+    </ul>
+</nav>
