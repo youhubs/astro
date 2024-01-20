@@ -127,3 +127,8 @@ def register_event():
             flash('You are already registered for this event.', 'info')
     return render_template('register_event.html', title='Register for Event', form=form)
 
+
+@app.route('/account')
+@login_required
+def account():
+    return render_template('account.html', title='My Account')
