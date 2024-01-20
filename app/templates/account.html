@@ -47,7 +47,7 @@
         <!-- Change Password Section -->
         <div id="changePassword" class="section" style="display:none;">
             <h2>Change Password</h2>
-            <form action="{{ url_for('change_password') }}" method="post">
+            <form action="{{ url_for('account') }}" method="post">
                 {{ form.hidden_tag() }}
                 <div>
                     {{ change_password_form.old_password.label }} {{ change_password_form.old_password() }}
@@ -69,8 +69,8 @@
         <div id="registeredEvents" class="section" style="display:none;">
             <h2>Registered Events</h2>
             <ul>
-                {% for event in user_registrations %}
-                <li>{{ event.title }} - {{ event.date }}</li>
+                {% for registration in user_registrations %}
+                <li>{{ registration.event.date }} - {{ registration.event.title }}</li>
                 {% endfor %}
             </ul>
         </div>
