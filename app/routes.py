@@ -151,8 +151,14 @@ def account():
             flash('Your password has been updated.')
         else:
             flash('Invalid old password.')
-    return render_template('account.html', user=current_user, form=form, change_password_form=change_password_form)
-
+    # Query registered events for the current user
+    user_registrations = EventRegistration.query.filter_by(user_id=current_user.user_id).all()
+    # Pass the events to the template
+    return render_template('account.html', 
+                           user=current_user, 
+                           form=form, 
+                           change_password_form=change_password_form, 
+                           user_registrations=user_registrations)
 
 @app.route('/update_profile', methods=['POST'])
 @login_required

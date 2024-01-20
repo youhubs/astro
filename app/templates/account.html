@@ -67,13 +67,14 @@
 
         <!-- Registered Events Section -->
         <div id="registeredEvents" class="section" style="display:none;">
-            <h3>Registered Events</h3>
+            <h2>Registered Events</h2>
             <ul>
-                {% for event in events %}
+                {% for event in user_registrations %}
                 <li>{{ event.title }} - {{ event.date }}</li>
                 {% endfor %}
             </ul>
         </div>
+
     </div>
 </div>
 
