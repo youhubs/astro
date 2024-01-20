@@ -88,7 +88,7 @@ def logout():
     return redirect(url_for('home'))
 
 
-@app.route('/change-password', methods=['GET', 'POST'])
+@app.route('/change_password', methods=['GET', 'POST'])
 @login_required
 def change_password():
     form = ChangePasswordForm()
@@ -132,6 +132,7 @@ def register_event():
 @login_required
 def account():
     form = ProfileForm(obj=current_user)
+    change_password_form = ChangePasswordForm() 
     if form.validate_on_submit():
         current_user.username = form.username.data
         current_user.email = form.email.data
@@ -142,8 +143,15 @@ def account():
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.email.data = current_user.email
-        # ... populate other fields ...
-    return render_template('account.html', user=current_user, form=form)
+    if change_password_form.validate_on_submit():
+        # Handle password change...
+        if current_user.verify_password(change_password_form.old_password.data):
+            current_user.password = change_password_form.new_password.data
+            db.session.commit()
+            flash('Your password has been updated.')
+        else:
+            flash('Invalid old password.')
+    return render_template('account.html', user=current_user, form=form, change_password_form=change_password_form)
 
 
 @app.route('/update_profile', methods=['POST'])
