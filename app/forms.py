@@ -64,10 +64,20 @@ class ChangePasswordForm(FlaskForm):
 
 
 class ProfileForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
+    # ... other fields ...
     submit = SubmitField('Update Profile')
 
+    def validate_username(self, username):
+        if username.data != current_user.username:
+            user = User.query.filter_by(username=username.data).first()
+            if user:
+                raise ValidationError('That username is taken. Please choose a different one.')
+    
     def validate_email(self, email):
-        user = User.query.filter_by(email=email.data).first()
-        if user and user.email != current_user.email:
-            raise ValidationError('That email is already in use. Please choose a different one.')
+        if email.data != current_user.email:
+            user = User.query.filter_by(email=email.data).first()
+            if user:
+                raise ValidationError('That email is already in use. Please choose a different one.')
+

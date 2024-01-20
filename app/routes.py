@@ -131,21 +131,39 @@ def register_event():
 @app.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
-    user = current_user
-    registrations = EventRegistration.query.filter_by(user_id=user.user_id).all()
-    events = [registration.event for registration in registrations]
-    return render_template('account.html', user=user, events=events)
-
-
-@app.route('/edit_profile', methods=['GET', 'POST'])
-@login_required
-def edit_profile():
-    form = ProfileForm()
+    form = ProfileForm(obj=current_user)
     if form.validate_on_submit():
+        current_user.username = form.username.data
         current_user.email = form.email.data
+        # ... update other fields as necessary ...
         db.session.commit()
         flash('Your profile has been updated.')
         return redirect(url_for('account'))
     elif request.method == 'GET':
+        form.username.data = current_user.username
         form.email.data = current_user.email
-    return render_template('edit_profile.html', form=form)
+        # ... populate other fields ...
+    return render_template('account.html', user=current_user, form=form)
+
+
+@app.route('/update_profile', methods=['POST'])
+@login_required
+def update_profile():
+    form = ProfileForm()
+    if form.validate_on_submit():
+        current_user.email = form.email.data
+        # Update other fields as necessary
+        db.session.commit()
+        flash('Your profile has been updated.')
+    else:
+        flash('Error updating profile.')
+    return redirect(url_for('account'))
+
+
+@app.route('/registered_events')
+@login_required
+def registered_events():
+    user = current_user
+    registrations = EventRegistration.query.filter_by(user_id=user.user_id).all()
+    events = [registration.event for registration in registrations]
+    return render_template('registered_events.html', events=events)
