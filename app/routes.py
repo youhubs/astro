@@ -5,7 +5,7 @@ from flask_mail import Mail
 from werkzeug.security import generate_password_hash
 
 from . import app, db
-from .forms import ContactForm, ChangePasswordForm, ProfileForm, EventRegistrationForm, LoginForm, RegistrationForm
+from .forms import ContactForm, ChangePasswordForm, CsrfProtectForm, ProfileForm, LoginForm, RegistrationForm
 from .models import Event, EventRegistration, User
 
 login_manager = LoginManager()
@@ -44,8 +44,9 @@ def contact():
 @app.route("/events")
 def events():
     current_time = datetime.now()
+    form = CsrfProtectForm()  # Create a form instance for CSRF protection
     events = Event.query.order_by(Event.date.desc()).all()
-    return render_template("events.html", events=events, current_time=current_time)
+    return render_template("events.html", events=events, form=form, current_time=current_time)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -88,44 +89,24 @@ def logout():
     return redirect(url_for('home'))
 
 
-@app.route('/change_password', methods=['GET', 'POST'])
+@app.route('/register_event/<int:event_id>', methods=['POST'])
 @login_required
-def change_password():
-    form = ChangePasswordForm()
-    if form.validate_on_submit():
-        if current_user.verify_password(form.old_password.data):
-            current_user.password = form.new_password.data  # This uses the setter method from your User model
-            db.session.commit()
-            flash('Your password has been updated.')
-            return redirect(url_for('home'))  # Redirect to the homepage or admin dashboard
-        else:
-            flash('Invalid password.')
-    return render_template("change_password.html", form=form)
+def register_event(event_id):
+    # Check if the user is already registered for the event
+    existing_registration = EventRegistration.query.filter_by(
+        user_id=current_user.user_id,
+        event_id=event_id
+    ).first()
 
-
-@app.route('/register-event', methods=['GET', 'POST'])
-@login_required
-def register_event():
-    form = EventRegistrationForm()
-    form.event_id.choices = [(event.event_id, event.title) for event in Event.query.all()]
-    if form.validate_on_submit():
-        # Check if the user has already registered for the event
-        existing_registration = EventRegistration.query.filter_by(
-            user_id=current_user.user_id,
-            event_id=form.event_id.data
-        ).first()
-        if existing_registration is None:
-            registration = EventRegistration(
-                user_id=current_user.user_id,
-                event_id=form.event_id.data
-            )
-            db.session.add(registration)
-            db.session.commit()
-            flash('You have successfully registered for the event.', 'success')
-            return redirect(url_for('index'))
-        else:
-            flash('You are already registered for this event.', 'info')
-    return render_template('register_event.html', title='Register for Event', form=form)
+    if existing_registration:
+        flash('You are already registered for this event.')
+    else:
+        # Create a new event registration
+        new_registration = EventRegistration(user_id=current_user.user_id, event_id=event_id)
+        db.session.add(new_registration)
+        db.session.commit()
+        flash('You have successfully registered for the event.')
+    return redirect(url_for('events'))  # Redirect back to the events page
 
 
 @app.route('/account', methods=['GET', 'POST'])
@@ -159,25 +140,3 @@ def account():
                            form=form, 
                            change_password_form=change_password_form, 
                            user_registrations=user_registrations)
-
-@app.route('/update_profile', methods=['POST'])
-@login_required
-def update_profile():
-    form = ProfileForm()
-    if form.validate_on_submit():
-        current_user.email = form.email.data
-        # Update other fields as necessary
-        db.session.commit()
-        flash('Your profile has been updated.')
-    else:
-        flash('Error updating profile.')
-    return redirect(url_for('account'))
-
-
-@app.route('/registered_events')
-@login_required
-def registered_events():
-    user = current_user
-    registrations = EventRegistration.query.filter_by(user_id=user.user_id).all()
-    events = [registration.event for registration in registrations]
-    return render_template('registered_events.html', events=events)

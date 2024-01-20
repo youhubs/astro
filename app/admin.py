@@ -30,7 +30,8 @@ def create_admin_user():
 
 # Initialize Flask-Admin
 admin = Admin(app, name="Astro", template_mode="bootstrap3", index_view=MyAdminIndexView())
+admin.add_view(ModelView(User, db.session))
 admin.add_view(ModelView(Event, db.session))
 admin.add_view(ModelView(EventRegistration, db.session))
-admin.add_view(ModelView(User, db.session))
+
 

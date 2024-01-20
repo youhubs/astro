@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
+from flask_wtf.csrf import CSRFProtect
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "your_secret_key"
@@ -16,5 +17,6 @@ app.config["MAIL_USE_SSL"] = True  # Use SSL for security
 
 mail = Mail(app)
 db = SQLAlchemy(app)
+csrf = CSRFProtect(app)
 
 from . import admin, forms, models, routes

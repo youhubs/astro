@@ -6,6 +6,10 @@ from wtforms.validators import DataRequired, Email, EqualTo
 from .models import User
 
 
+class CsrfProtectForm(FlaskForm):
+    pass
+
+
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
