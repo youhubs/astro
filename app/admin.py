@@ -9,9 +9,10 @@ from .models import Event, EventRegistration, User
 
 
 class MyAdminIndexView(AdminIndexView):
-    """Create customized index view class"""
+    """Create customized Admin Panel View"""
     def is_accessible(self):
-        return current_user.is_authenticated
+        if current_user.is_authenticated:
+            return current_user.is_admin
 
 
 def create_admin_user():
