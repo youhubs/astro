@@ -1,7 +1,7 @@
+from flask_login import current_user
 from flask_wtf import FlaskForm
-from wtforms import EmailField, BooleanField, PasswordField, StringField, SubmitField, SelectField, TextAreaField, ValidationError
+from wtforms import BooleanField, PasswordField, StringField, SubmitField, SelectField, TextAreaField, ValidationError
 from wtforms.validators import DataRequired, Email, EqualTo
-from flask_wtf import FlaskForm
 
 from .models import User
 
@@ -61,3 +61,13 @@ class ChangePasswordForm(FlaskForm):
     ])
     confirm = PasswordField('Repeat Password', validators=[DataRequired()])
     submit = SubmitField('Update Password')
+
+
+class ProfileForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    submit = SubmitField('Update Profile')
+
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user and user.email != current_user.email:
+            raise ValidationError('That email is already in use. Please choose a different one.')

@@ -5,7 +5,7 @@ from flask_mail import Mail
 from werkzeug.security import generate_password_hash
 
 from . import app, db
-from .forms import ContactForm, ChangePasswordForm, EventRegistrationForm, LoginForm, RegistrationForm
+from .forms import ContactForm, ChangePasswordForm, ProfileForm, EventRegistrationForm, LoginForm, RegistrationForm
 from .models import Event, EventRegistration, User
 
 login_manager = LoginManager()
@@ -128,7 +128,24 @@ def register_event():
     return render_template('register_event.html', title='Register for Event', form=form)
 
 
-@app.route('/account')
+@app.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
-    return render_template('account.html', title='My Account')
+    user = current_user
+    registrations = EventRegistration.query.filter_by(user_id=user.user_id).all()
+    events = [registration.event for registration in registrations]
+    return render_template('account.html', user=user, events=events)
+
+
+@app.route('/edit_profile', methods=['GET', 'POST'])
+@login_required
+def edit_profile():
+    form = ProfileForm()
+    if form.validate_on_submit():
+        current_user.email = form.email.data
+        db.session.commit()
+        flash('Your profile has been updated.')
+        return redirect(url_for('account'))
+    elif request.method == 'GET':
+        form.email.data = current_user.email
+    return render_template('edit_profile.html', form=form)

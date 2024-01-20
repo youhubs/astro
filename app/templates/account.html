@@ -2,5 +2,19 @@
 
 {% block content %}
 <h2>My Account</h2>
-<!-- Display user information and account management options here -->
+<p>Username: {{ user.username }}</p>
+<p>Email: {{ user.email }}</p>
+<!-- Add more fields as needed -->
+
+<h3>Registered Events</h3>
+<ul>
+    {% for event in events %}
+    <li>{{ event.title }} - {{ event.date }}</li>
+    {% endfor %}
+</ul>
+
+<!-- Link to edit profile -->
+<a href="{{ url_for('edit_profile') }}">Edit Profile</a>
+<!-- Link to change password -->
+<a href="{{ url_for('change_password') }}">Change Password</a>
 {% endblock %}
