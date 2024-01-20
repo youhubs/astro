@@ -1,11 +1,12 @@
 from datetime import datetime
 from flask import render_template, redirect, request, url_for, flash
-from flask_login import login_user, current_user, logout_user, login_required, LoginManager
-from flask_mail import Mail, Message
+from flask_login import current_user, login_user, logout_user, login_required, LoginManager
+from flask_mail import Mail
+from werkzeug.security import generate_password_hash
 
 from . import app, db
-from .forms import ContactForm, ChangePasswordForm, LoginForm, RegistrationForm
-from .models import Event, Student, Registration, User
+from .forms import ContactForm, ChangePasswordForm, EventRegistrationForm, LoginForm, RegistrationForm
+from .models import Event, EventRegistration, User
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -34,7 +35,6 @@ def contact():
     form = ContactForm()
     if form.validate_on_submit():
         # Here, you'll process the form data, like sending an email or storing it in a database
-        # For now, I'll just print the data to the console
         print(f"Name: {form.name.data}, Email: {form.email.data}, Message: {form.message.data}")
         flash('Your message has been sent successfully!', 'success')
         return redirect(url_for('contact'))
@@ -48,25 +48,25 @@ def events():
     return render_template("events.html", events=events, current_time=current_time)
 
 
-@app.route("/register/<int:event_id>", methods=["GET", "POST"])
-def register(event_id):
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
     form = RegistrationForm()
-    event = Event.query.get_or_404(event_id)
     if form.validate_on_submit():
-        student = Student(name=form.name.data, email=form.email.data)
-        registration = Registration(student=student, event=event)
-        db.session.add(student)
-        db.session.add(registration)
+        hashed_password = generate_password_hash(form.password.data, method='sha256')
+        new_user = User(username=form.username.data, email=form.email.data, password_hash=hashed_password)
+        db.session.add(new_user)
         db.session.commit()
-        flash("Registration successful!", "success")
-        return redirect(url_for("events"))
-    return render_template("register.html", form=form, event=event)
+        flash('Your account has been created! You are now able to log in', 'success')
+        return redirect(url_for('login'))
+    return render_template('register.html', title='Register', form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    # if current_user.is_authenticated:
-    #     return redirect(url_for('change_password'))
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -101,3 +101,29 @@ def change_password():
         else:
             flash('Invalid password.')
     return render_template("change_password.html", form=form)
+
+
+@app.route('/register-event', methods=['GET', 'POST'])
+@login_required
+def register_event():
+    form = EventRegistrationForm()
+    form.event_id.choices = [(event.event_id, event.title) for event in Event.query.all()]
+    if form.validate_on_submit():
+        # Check if the user has already registered for the event
+        existing_registration = EventRegistration.query.filter_by(
+            user_id=current_user.user_id,
+            event_id=form.event_id.data
+        ).first()
+        if existing_registration is None:
+            registration = EventRegistration(
+                user_id=current_user.user_id,
+                event_id=form.event_id.data
+            )
+            db.session.add(registration)
+            db.session.commit()
+            flash('You have successfully registered for the event.', 'success')
+            return redirect(url_for('index'))
+        else:
+            flash('You are already registered for this event.', 'info')
+    return render_template('register_event.html', title='Register for Event', form=form)
+

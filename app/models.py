@@ -4,33 +4,29 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 
 
-class Student(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(100), nullable=False, unique=True)
-    registrations = db.relationship("Registration", backref="student", lazy=True)
-
-
 class Event(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    event_id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    registrations = db.relationship("Registration", backref="event", lazy=True)
+    registrations = db.relationship('EventRegistration', back_populates='event', lazy='dynamic')
 
 
-class Registration(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    student_id = db.Column(db.Integer, db.ForeignKey("student.id"), nullable=False)
-    event_id = db.Column(db.Integer, db.ForeignKey("event.id"), nullable=False)
-    registration_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+class EventRegistration(db.Model):
+    registration_id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
+    event_id = db.Column(db.Integer, db.ForeignKey('event.event_id'), nullable=False)
+    registration_date = db.Column(db.DateTime, default=datetime.utcnow)
+    event = db.relationship('Event', back_populates='registrations')
 
 
 class User(db.Model):
     user_id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
+    email = db.Column(db.String(100), unique=True, nullable=False)
     password_hash = db.Column(db.String(200), nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
+    registrations = db.relationship("EventRegistration", backref="user", lazy=True)
 
     @property
     def password(self):

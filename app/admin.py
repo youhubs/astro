@@ -5,20 +5,13 @@ from flask_login import current_user
 from werkzeug.security import generate_password_hash
 
 from . import app, db
-from .models import Event, Student, Registration, User
+from .models import Event, EventRegistration, User
 
 
 class MyAdminIndexView(AdminIndexView):
     """Create customized index view class"""
     def is_accessible(self):
         return current_user.is_authenticated
-
-# Initialize Flask-Admin
-admin = Admin(app, name="Astro", template_mode="bootstrap3", index_view=MyAdminIndexView())
-admin.add_view(ModelView(Student, db.session))
-admin.add_view(ModelView(Event, db.session))
-admin.add_view(ModelView(Registration, db.session))
-admin.add_view(ModelView(User, db.session))
 
 
 def create_admin_user():
@@ -29,9 +22,14 @@ def create_admin_user():
     if not admin_user:
         # Create an admin user (make sure to hash the password, never store it in plain text)
         hashed_password = generate_password_hash(admin_password, method='sha256')
-        new_admin = User(username=admin_username, password_hash=hashed_password, is_admin=True)
+        new_admin = User(username=admin_username, email='houstonastrorobotics@gmail.com', password_hash=hashed_password, is_admin=True)
         db.session.add(new_admin)
         db.session.commit()
 
 
+# Initialize Flask-Admin
+admin = Admin(app, name="Astro", template_mode="bootstrap3", index_view=MyAdminIndexView())
+admin.add_view(ModelView(Event, db.session))
+admin.add_view(ModelView(EventRegistration, db.session))
+admin.add_view(ModelView(User, db.session))
 

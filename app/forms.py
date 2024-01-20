@@ -1,14 +1,33 @@
 from flask_wtf import FlaskForm
-from wtforms import EmailField, BooleanField, PasswordField, StringField, SubmitField, TextAreaField, ValidationError
+from wtforms import EmailField, BooleanField, PasswordField, StringField, SubmitField, SelectField, TextAreaField, ValidationError
 from wtforms.validators import DataRequired, Email, EqualTo
 from flask_wtf import FlaskForm
 
+from .models import User
 
-# Flask-WTF forms for registration and event management
+
 class RegistrationForm(FlaskForm):
-    name = StringField("Name", validators=[DataRequired()])
-    email = EmailField("Email", validators=[DataRequired(), Email()])
-    submit = SubmitField("Register")
+    username = StringField('Username', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired(), EqualTo('confirm_password')])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired()])
+    submit = SubmitField('Sign Up')
+
+    def validate_username(self, username):
+        user = User.query.filter_by(username=username.data).first()
+        if user:
+            raise ValidationError('That username is taken. Please choose a different one.')
+
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user:
+            raise ValidationError('That email is already in use. Please choose a different one.')
+
+
+class EventRegistrationForm(FlaskForm):
+    # If you want to select from existing events
+    event_id = SelectField('Event', coerce=int, choices=[])
+    submit = SubmitField('Register')
 
 
 class EventForm(FlaskForm):
