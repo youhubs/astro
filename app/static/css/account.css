@@ -38,36 +38,6 @@
     /* Even darker grey on hover */
 }
 
-/* Style for form groups */
-.form-group {
-    margin-bottom: 10px;
-    /* Space out each form group */
-}
-
-/* Style for form labels */
-.form-label {
-    display: block;
-    /* Make labels take the full width */
-    margin-bottom: 5px;
-    /* Space between label and input field */
-}
-
-/* Style for form controls (input boxes) */
-.form-control {
-    width: 100%;
-    /* Full width of the parent container */
-    padding: 8px;
-    /* Padding inside the input box */
-    box-sizing: border-box;
-    /* Include padding and border in the input width */
-}
-
-/* Style for the email input to make it longer */
-.form-control[type="email"] {
-    min-width: 250px;
-    /* Minimum width for email input */
-}
-
 /* Style for the registered events list */
 .registered-events-list {
     list-style-type: none;

@@ -1,0 +1,69 @@
+.form-container {
+    max-width: 600px;
+    /* Maximum width of the form */
+    padding: 20px;
+    /* Padding around the form */
+    margin: 0 auto;
+    /* Center the form */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* Optional: Adds a subtle shadow around the form */
+    background-color: white;
+    /* Optional: Sets the background color of the form */
+    border-radius: 5px;
+    /* Optional: Rounds the corners of the form */
+}
+
+/* Style for form groups */
+.form-group {
+    margin-bottom: 10px;
+    /* Space out each form group */
+}
+
+/* Style for form labels */
+.form-label {
+    display: block;
+    /* Make labels take the full width */
+    margin-bottom: 5px;
+    /* Space between label and input field */
+}
+
+/* Style for form controls (input boxes) */
+.form-control {
+    width: 100%;
+    /* Full width of the parent container */
+    padding: 8px;
+    /* Padding inside the input box */
+    box-sizing: border-box;
+    /* Include padding and border in the input width */
+}
+
+/* Style for error messages */
+.error-message {
+    color: red;
+    /* Color for error messages */
+    display: block;
+    /* Ensure each message is on a new line */
+    margin-top: 5px;
+    /* Space between input field and error message */
+}
+
+/* Style for submit button */
+.btn {
+    padding: 8px 15px;
+    /* Padding inside the button */
+    background-color: #007bff;
+    /* Background color */
+    color: white;
+    /* Text color */
+    border: none;
+    /* No border */
+    border-radius: 4px;
+    /* Rounded corners */
+    cursor: pointer;
+    /* Pointer cursor on hover */
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    /* Darker background color on hover */
+}
