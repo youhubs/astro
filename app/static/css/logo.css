@@ -1,3 +1,10 @@
+.logo {
+    height: 120px;
+    /* Adjust the size as needed */
+    width: auto;
+    /* Additional styling as needed */
+}
+
 .dynamic-logo {
     width: 150px;
     animation: pulse 2s infinite;

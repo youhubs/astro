@@ -17,6 +17,7 @@ header {
     padding: 1em 0;
 }
 
+/* nav bar styles */
 nav {
     background-color: #040000;
     display: flex;
@@ -25,14 +26,12 @@ nav {
     justify-content: space-between;
     /* Spreads out the logo and menu */
 }
-
 .nav-brand {
     /* Styling for the brand/logo area */
     list-style: none;
     display: flex;
     align-items: center;
 }
-
 .nav-menu {
     /* Styling for the navigation menu */
     list-style: none;
@@ -40,46 +39,36 @@ nav {
     align-items: center;
     /* Aligns menu items vertically */
 }
-
 .nav-menu li {
     margin-right: 20px;
     /* Spacing between menu items */
 }
-
 .nav-menu li a {
     text-decoration: none;
     color: white;
     /* Additional link styling */
 }
 
-.logo {
-    height: 120px;
-    /* Adjust the size as needed */
-    width: auto;
-    /* Additional styling as needed */
-}
-
+/* footer styles */
 footer {
     background-color: #333;
     color: white;
     text-align: center;
     padding: 2px 0;
 }
-
 .footer-content {
     max-width: 800px;
     margin: 0 auto;
 }
-
 .contact-info {
     list-style: none;
     padding: 0;
 }
-
 .contact-info li {
     margin: 5px 0;
 }
 
+/* photo grid styles */
 .photo-grid {
     display: flex;
     flex-wrap: wrap;
@@ -87,7 +76,6 @@ footer {
     /* This will space out the images evenly */
     padding: 0;
 }
-
 .photo-item {
     flex-basis: calc(50% - 20px);
     /* Adjust for two images per row, assuming 20px total margin */
@@ -95,7 +83,6 @@ footer {
     /* This gives 10px margin on all sides of each photo */
     box-sizing: border-box;
 }
-
 .photo-item img {
     width: 100%;
     height: auto;
@@ -128,7 +115,6 @@ footer {
     opacity: 1;
     /* Full opacity initially */
 }
-
 .flash-messages.hide {
     opacity: 0;
     /* Fully transparent */
@@ -137,7 +123,6 @@ footer {
     transition: visibility 0s 0.5s, opacity 0.5s linear;
     /* Adjusts visibility after opacity transition */
 }
-
 .alert {
     display: inline-block;
     /* Display messages inline */
@@ -145,17 +130,27 @@ footer {
     /* Center the messages and add some margin */
     padding: 1rem;
     /* Padding inside the alert boxes */
-    /* ... other styles ... */
 }
-
 .alert-success {
     color: #3c763d;
     background-color: #dff0d8;
     border-color: #d6e9c6;
 }
-
 .alert-error {
     color: #a94442;
     background-color: #f2dede;
     border-color: #ebccd1;
+}
+
+/* button styles */
+.btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.btn:hover {
+    background-color: #0056b3;
 }
