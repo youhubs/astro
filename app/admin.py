@@ -1,4 +1,5 @@
 import os
+from flask import redirect, request, url_for
 from flask_admin import Admin, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 from flask_login import current_user
@@ -10,12 +11,18 @@ from .models import Event, EventRegistration, User
 
 class MyAdminIndexView(AdminIndexView):
     """Create customized Admin Panel View"""
+    
     def is_accessible(self):
-        if current_user.is_authenticated:
-            return current_user.is_admin
+        """Override the is_accessible method"""
+        return current_user.is_authenticated and current_user.is_admin  # Assuming you have an `is_admin` attribute
+
+    def inaccessible_callback(self, name, **kwargs):
+        """Redirect to login page if user doesn't have access"""
+        return redirect(url_for('login', next=request.url))
 
 
 def create_admin_user():
+    """Create a new admin user"""
     admin_username = os.environ.get('ADMIN_USERNAME', 'admin')
     admin_password = os.environ.get('ADMIN_PASSWORD', '12345')
     # Check if admin user exists
@@ -33,5 +40,3 @@ admin = Admin(app, name="Astro", template_mode="bootstrap3", index_view=MyAdminI
 admin.add_view(ModelView(User, db.session))
 admin.add_view(ModelView(Event, db.session))
 admin.add_view(ModelView(EventRegistration, db.session))
-
-

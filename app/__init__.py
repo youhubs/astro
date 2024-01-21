@@ -1,22 +1,23 @@
 from flask import Flask
-from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
-from flask_wtf.csrf import CSRFProtect
+from flask_mail import Mail
+from flask_talisman import Talisman
+from config import DevelopmentConfig  # or another config depending on your environment
+
+from app.session_service import init_session_lifetime
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = "your_secret_key"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///astro_robotics.db"
+# Talisman(app)
+app.config.from_object(DevelopmentConfig)
 
-# Configuration for Flask-Mail
-app.config["MAIL_SERVER"] = "smtp.gmail.com"  # e.g., 'smtp.gmail.com'
-app.config["MAIL_PORT"] = 465  # e.g., 465 for Gmail with SSL
-app.config["MAIL_USERNAME"] = "xueyouhu@gmail.com"
-app.config["MAIL_PASSWORD"] = "Tigerhu123"
-app.config["MAIL_USE_TLS"] = False
-app.config["MAIL_USE_SSL"] = True  # Use SSL for security
-
-mail = Mail(app)
+# Initialize SQLAlchemy
 db = SQLAlchemy(app)
-csrf = CSRFProtect(app)
 
-from . import admin, forms, models, routes
+# Initialize Flask-Mail
+mail = Mail(app)
+
+# Initialize other extensions
+init_session_lifetime(app)
+
+# Import models, views, and other components
+from . import forms, models, routes, admin
