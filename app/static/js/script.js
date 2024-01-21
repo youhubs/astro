@@ -1,3 +1,8 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // JavaScript code for interactive elements
+document.addEventListener("DOMContentLoaded", function () {
+  setTimeout(function () {
+    const flashMessages = document.querySelector(".flash-messages");
+    if (flashMessages) {
+      flashMessages.classList.add("hide");
+    }
+  }, 1000);
 });

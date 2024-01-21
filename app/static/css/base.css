@@ -108,3 +108,54 @@ footer {
         /* Full width on small screens */
     }
 }
+
+/* This is style for flash message */
+.flash-messages {
+    width: 100%;
+    /* Take the full width of the viewport */
+    position: fixed;
+    /* Position it relative to the viewport */
+    top: 50px;
+    /* Adjust this value based on the height of your navigation bar */
+    left: 0;
+    right: 0;
+    z-index: 1030;
+    /* Ensure it's on top of other elements */
+    text-align: center;
+    /* Center the text of the messages */
+    transition: opacity 0.5s ease-in-out;
+    /* Transition effect for the opacity */
+    opacity: 1;
+    /* Full opacity initially */
+}
+
+.flash-messages.hide {
+    opacity: 0;
+    /* Fully transparent */
+    visibility: hidden;
+    /* Ensures that the space is also cleared after it's hidden */
+    transition: visibility 0s 0.5s, opacity 0.5s linear;
+    /* Adjusts visibility after opacity transition */
+}
+
+.alert {
+    display: inline-block;
+    /* Display messages inline */
+    margin: 0.5rem auto;
+    /* Center the messages and add some margin */
+    padding: 1rem;
+    /* Padding inside the alert boxes */
+    /* ... other styles ... */
+}
+
+.alert-success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+
+.alert-error {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}

@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import render_template, redirect, request, url_for, flash
+from flask import flash, render_template, redirect, request, url_for
 from flask_login import current_user, login_user, logout_user, login_required, LoginManager
 from flask_mail import Mail
 from werkzeug.security import generate_password_hash
@@ -119,7 +119,7 @@ def account():
         current_user.email = form.email.data
         # ... update other fields as necessary ...
         db.session.commit()
-        flash('Your profile has been updated.')
+        flash('Your profile has been updated successfully.', 'success') 
         return redirect(url_for('account'))
     elif request.method == 'GET':
         form.username.data = current_user.username
@@ -129,14 +129,16 @@ def account():
         if current_user.verify_password(change_password_form.old_password.data):
             current_user.password = change_password_form.new_password.data
             db.session.commit()
-            flash('Your password has been updated.')
+            flash('Your password has been updated successfully.', 'success') 
         else:
             flash('Invalid old password.')
-    # Query registered events for the current user
-    user_registrations = EventRegistration.query.filter_by(user_id=current_user.user_id).all()
-    # Pass the events to the template
-    return render_template('account.html', 
-                           user=current_user, 
-                           form=form, 
-                           change_password_form=change_password_form, 
-                           user_registrations=user_registrations)
+        return redirect(url_for('account'))
+    else:
+        # Query registered events for the current user
+        user_registrations = EventRegistration.query.filter_by(user_id=current_user.user_id).all()
+        # Pass the events to the template
+        return render_template('account.html', 
+                            user=current_user, 
+                            form=form, 
+                            change_password_form=change_password_form, 
+                            user_registrations=user_registrations)
