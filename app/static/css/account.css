@@ -67,3 +67,36 @@
     min-width: 250px;
     /* Minimum width for email input */
 }
+
+/* Style for the registered events list */
+.registered-events-list {
+    list-style-type: none;
+    /* Remove default list styling */
+    padding: 0;
+    /* Remove default padding */
+}
+
+.registered-events-list li {
+    padding: 10px;
+    /* Add some padding to each list item */
+    border-bottom: 1px solid #ccc;
+    /* Add a border to separate items */
+    display: flex;
+    /* Use flexbox for alignment */
+    align-items: center;
+    /* Align items vertically */
+}
+
+.event-date {
+    margin-right: 15px;
+    /* Space between date and title */
+    font-weight: bold;
+    /* Make date bold */
+    white-space: nowrap;
+    /* Prevent date from wrapping */
+}
+
+.event-title {
+    flex-grow: 1;
+    /* Allow title to take the remaining space */
+}
