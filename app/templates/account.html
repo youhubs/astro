@@ -27,6 +27,7 @@
             <h2>Edit Profile</h2>
             <form action="{{ url_for('account') }}" method="post">
                 {{ form.hidden_tag() }}
+                {{ form.form_name() }}
                 <div class="form-group">
                     {{ form.username.label(class="form-label") }}
                     {{ form.username(class="form-control") }}
@@ -45,7 +46,8 @@
         <div id="changePassword" class="section" style="display:none;">
             <h2>Change Password</h2>
             <form action="{{ url_for('account') }}" method="post">
-                {{ form.hidden_tag() }}
+                {{ change_password_form.hidden_tag() }}
+                {{ change_password_form.form_name() }}
                 <div class="form-group">
                     {{ change_password_form.old_password.label(class="form-label") }}
                     {{ change_password_form.old_password(class="form-control") }}

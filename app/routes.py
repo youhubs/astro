@@ -98,7 +98,6 @@ def register_event(event_id):
         user_id=current_user.user_id,
         event_id=event_id
     ).first()
-
     if existing_registration:
         flash('You are already registered for this event.', 'error') 
     else:
@@ -113,33 +112,23 @@ def register_event(event_id):
 @app.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
-    form = ProfileForm(obj=current_user)
-    change_password_form = ChangePasswordForm() 
-    if form.validate_on_submit():
-        current_user.username = form.username.data
-        current_user.email = form.email.data
-        # ... update other fields as necessary ...
+    profile_form = ProfileForm(obj=current_user)
+    change_password_form = ChangePasswordForm()
+    if 'form_name' in request.form and request.form['form_name'] == 'profile_form' and profile_form.validate_on_submit():
+        current_user.username = profile_form.username.data
+        current_user.email = profile_form.email.data
         db.session.commit()
-        flash('Your profile has been updated successfully.', 'success') 
+        flash('Your profile has been updated successfully.', 'success')
         return redirect(url_for('account'))
-    elif request.method == 'GET':
-        form.username.data = current_user.username
-        form.email.data = current_user.email
-    if change_password_form.validate_on_submit():
-        # Handle password change...
-        if current_user.verify_password(change_password_form.old_password.data):
-            current_user.password = change_password_form.new_password.data
-            db.session.commit()
-            flash('Your password has been updated successfully.', 'success') 
-        else:
-            flash('Invalid old password.')
+    elif 'form_name' in request.form and request.form['form_name'] == 'change_password_form' and change_password_form.validate_on_submit():
+        current_user.password = change_password_form.new_password.data
+        db.session.commit()
+        flash('Your password has been updated successfully.', 'success')
         return redirect(url_for('account'))
-    else:
-        # Query registered events for the current user
-        user_registrations = EventRegistration.query.filter_by(user_id=current_user.user_id).all()
-        # Pass the events to the template
-        return render_template('account.html', 
-                            user=current_user, 
-                            form=form, 
-                            change_password_form=change_password_form, 
-                            user_registrations=user_registrations)
+    # Query registered events for the current user
+    user_registrations = EventRegistration.query.filter_by(user_id=current_user.user_id).all()
+    return render_template('account.html', 
+                           user=current_user, 
+                           form=profile_form, 
+                           change_password_form=change_password_form, 
+                           user_registrations=user_registrations)

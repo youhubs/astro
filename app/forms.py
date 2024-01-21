@@ -1,6 +1,6 @@
 from flask_login import current_user
 from flask_wtf import FlaskForm
-from wtforms import BooleanField, PasswordField, StringField, SubmitField, SelectField, TextAreaField, ValidationError
+from wtforms import BooleanField, HiddenField, PasswordField, StringField, SubmitField, SelectField, TextAreaField, ValidationError
 from wtforms.validators import DataRequired, Email, EqualTo
 
 from .models import User
@@ -61,13 +61,14 @@ class ChangePasswordForm(FlaskForm):
     old_password = PasswordField('Old Password', validators=[DataRequired()])
     new_password = PasswordField('New Password', validators=[DataRequired()])
     confirm_new_password = PasswordField('Confirm New Password', validators=[DataRequired(), EqualTo('new_password', message='Passwords must match')])
+    form_name = HiddenField(default='change_password_form')
     submit = SubmitField('Update Password')
 
 
 class ProfileForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    # ... other fields ...
+    form_name = HiddenField(default='profile_form')
     submit = SubmitField('Update Profile')
 
     def validate_username(self, username):
