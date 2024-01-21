@@ -4,5 +4,5 @@ document.addEventListener("DOMContentLoaded", function () {
     if (flashMessages) {
       flashMessages.classList.add("hide");
     }
-  }, 1000);
+  }, 3000);
 });

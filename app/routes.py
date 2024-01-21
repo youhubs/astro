@@ -73,8 +73,9 @@ def login():
         user = User.query.filter_by(username=form.username.data).first()
         if user is not None and user.verify_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
-            return redirect(url_for('login'))  # or 'admin' if user is admin
-        flash('Invalid username or password')
+            return redirect(url_for('login')) 
+        else:# or 'admin' if user is admin
+            flash('Invalid username or password', 'error') 
     return render_template('login.html', form=form)
 
 
@@ -99,13 +100,13 @@ def register_event(event_id):
     ).first()
 
     if existing_registration:
-        flash('You are already registered for this event.')
+        flash('You are already registered for this event.', 'error') 
     else:
         # Create a new event registration
         new_registration = EventRegistration(user_id=current_user.user_id, event_id=event_id)
         db.session.add(new_registration)
         db.session.commit()
-        flash('You have successfully registered for the event.')
+        flash('You have successfully registered for the event.', 'success') 
     return redirect(url_for('events'))  # Redirect back to the events page
 
 
