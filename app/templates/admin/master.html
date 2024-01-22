@@ -1,0 +1,9 @@
+{% extends 'admin/base.html' %}
+
+{% block navbar %}
+{{ super() }}
+Custom Navbar Content <!-- Add this for debugging -->
+<div style="float: right;">
+    <a href="{{ url_for('logout') }}" style="color: red;">Logout</a>
+</div>
+{% endblock %}

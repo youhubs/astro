@@ -8,7 +8,7 @@ class Event(db.Model):
     event_id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable=False)
-    date = db.Column(db.DateTime, nullable=False, default=datetime.date)
+    date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     registrations = db.relationship('EventRegistration', back_populates='event', lazy='dynamic')
 
 
