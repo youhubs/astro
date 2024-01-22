@@ -1,0 +1,31 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.11 # Specify the Python version
+    commands:
+      - echo Installing Python dependencies...
+      - pip install -r requirements.txt # Install dependencies from requirements.txt
+  pre_build:
+    commands:
+      - echo Pre-build phase...
+      # Add any pre-build commands here (e.g., linting, tests)
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Starting Flask application...
+      - FLASK_APP=run.py flask run # Start the Flask application
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      # Add any post-build commands here (e.g., notifications)
+
+artifacts:
+  files:
+    - "**/*" # Include all files and directories in the artifact
+  base-directory: "app" # Adjust if your build outputs to a different directory
+
+cache:
+  paths:
+    - "venv/**/*" # Cache the virtual environment directory to speed up future builds
