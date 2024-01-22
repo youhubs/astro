@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
 from config import DevelopmentConfig  # or another config depending on your environment
 
-from app.session_service import init_session_lifetime
+from astro.session_service import init_session_lifetime
 
 app = Flask(__name__)
 app.config.from_object(DevelopmentConfig)

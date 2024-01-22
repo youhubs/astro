@@ -15,7 +15,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Starting ASTRO ROBOTICS
-      - python3 run.py # Start the Flask application
+      - python3 app.py # Start the Flask application
   post_build:
     commands:
       - echo Build completed on `date`
