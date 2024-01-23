@@ -19,12 +19,13 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
-      # Add any post-build commands here (e.g., notifications)
+      - echo Creating application bundle...
+      - zip -r astro_robotics.zip . # This zips your application files into a bundle
 
 artifacts:
   files:
     - "**/*" # Include all files and directories in the artifact
-  base-directory: "app" # Adjust if your build outputs to a different directory
+  base-directory: "astro" # Adjust if your build outputs to a different directory
 
 cache:
   paths:
