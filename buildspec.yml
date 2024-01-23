@@ -1,32 +1,19 @@
 version: 0.2
-
 phases:
   install:
     runtime-versions:
-      python: 3.11 # Specify the Python version
+      python: 3.11  # Specify your python version here
     commands:
-      - echo Installing Python dependencies...
-      - pip install -r requirements.txt # Install dependencies from requirements.txt
+      - echo installing dependencies...
+      - pip install -r requirements.txt
   pre_build:
     commands:
-      - echo Pre-build phase...
-      # Add any pre-build commands here (e.g., linting, tests)
+      - echo running tests...
   build:
     commands:
-      - echo Build started on `date`
-      - echo Starting ASTRO ROBOTICS
-      - python3 app.py # Start the Flask application
-  post_build:
-    commands:
-      - echo Build completed on `date`
-      - echo Creating application bundle...
-      - zip -r astro_robotics.zip . # This zips your application files into a bundle
-
+      - echo build started on `date`
+      - echo building the Flask app...
 artifacts:
   files:
-    - "**/*" # Include all files and directories in the artifact
-  base-directory: "astro" # Adjust if your build outputs to a different directory
-
-cache:
-  paths:
-    - "venv/**/*" # Cache the virtual environment directory to speed up future builds
+    - '**/*'
+  discard-paths: yes
