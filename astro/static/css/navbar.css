@@ -27,6 +27,7 @@ nav {
 .nav-menu li {
     margin-right: 20px;
     /* Spacing between menu items */
+    padding: 0 10px;
 }
 
 .nav-menu li a {
@@ -38,6 +39,7 @@ nav {
 /* Menu Toggle Button */
 .menu-toggle {
     display: none;
+    flex-direction: column;
     /* Hidden by default */
     cursor: pointer;
     padding: 10px;
@@ -74,6 +76,10 @@ nav {
     /* Display menu toggle button on small screens */
     .menu-toggle {
         display: block;
+    }
+
+    .nav-menu.active {
+        left: 0;
     }
 
     .nav-menu {
