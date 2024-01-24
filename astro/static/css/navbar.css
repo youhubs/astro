@@ -1,0 +1,77 @@
+/* nav bar styles */
+nav {
+    background-color: #040000;
+    display: flex;
+    align-items: center;
+    /* Aligns items vertically */
+    justify-content: space-between;
+    /* Spreads out the logo and menu */
+}
+
+.nav-brand {
+    /* Styling for the brand/logo area */
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.nav-menu {
+    /* Styling for the navigation menu */
+    list-style: none;
+    display: flex;
+    align-items: center;
+    /* Aligns menu items vertically */
+}
+
+.nav-menu li {
+    margin-right: 20px;
+    /* Spacing between menu items */
+}
+
+.nav-menu li a {
+    text-decoration: none;
+    color: white;
+    /* Additional link styling */
+}
+
+/* Menu Toggle Button */
+.menu-toggle {
+    display: none;
+    /* Hidden by default */
+    cursor: pointer;
+    padding: 10px;
+    margin: 10px;
+}
+
+.bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    background-color: #101010;
+}
+
+/* Menu Items Container */
+.nav-menu-container {
+    display: flex;
+    /* or 'block' depending on your layout */
+    justify-content: flex-end;
+}
+
+/* Media Query - If the screen size is less than or equal to 768px */
+@media screen and (max-width: 768px) {
+    .nav-menu-container {
+        display: none;
+        /* Hide menu items on small screens */
+        flex-direction: column;
+        /* Stack items vertically */
+        width: 100%;
+    }
+
+    /* Display menu toggle button on small screens */
+    .menu-toggle {
+        display: block;
+    }
+}
