@@ -19,6 +19,7 @@ nav {
     /* Styling for the navigation menu */
     list-style: none;
     display: flex;
+    /* This makes the menu items line up horizontally */
     align-items: center;
     /* Aligns menu items vertically */
 }
@@ -73,5 +74,18 @@ nav {
     /* Display menu toggle button on small screens */
     .menu-toggle {
         display: block;
+    }
+
+    .nav-menu {
+        display: block;
+        /* Stack menu items vertically */
+    }
+
+    .nav-menu li {
+        display: block;
+        /* Ensure each item takes up its own line */
+        width: 100%;
+        /* Optional: Make each item full width */
+        /* You can add more styles here to adjust padding, text alignment, etc. */
     }
 }
