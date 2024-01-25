@@ -70,7 +70,7 @@ We will be adding 3 parts to systemd Unit file — Unit, Service, Install
 - Service — To specify user/group we want to run this service after. Also some information about the executables and the commands.
 - Install — tells systemd at which moment during boot process this service should start.
 With that said, create an unit file in the /etc/systemd/system directory
- 
+
 ```bash
 vim /etc/systemd/system/astro-web.service
 ```
@@ -79,7 +79,7 @@ Then add this into the file.
 
 ```bash
 [Unit]
-Description=Gunicorn instance for Astro Robotics Website
+Description=Gunicorn instance for Astro Web
 After=network.target
 [Service]
 User=ec2-user
@@ -126,28 +126,31 @@ sudo systemctl enable nginx
 
 Add the following code to the config file >> __/etc/nginx/conf.d/astro-web.conf__
 
+**Import**: this is to register the service
+
 ```bash
 upstream astro-web {
     server 127.0.0.1:8000;
 }
 ```
 
-Add a proxy_pass to astro-web atlocation / >> **/etc/nginx/default.d/astro.conf**
+Add a proxy_pass to astro-web at location / >> **/etc/nginx/default.d/astro.conf**
 
 ```bash
-    # Proxy pass to Flask application
-    location / {
-        proxy_pass http://astro-web;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
+# Proxy pass to Flask application
+location / {
+    proxy_pass http://astro-web;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+}
 ```
 
 Restart Nginx
 
 ```bash
+sudo nginx -t
 sudo systemctl restart nginx
 ```
 
