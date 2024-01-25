@@ -1,6 +1,6 @@
 # Run Flask App on EC2 Instance (Linux)
 
-## Host One Website on EC2 Instance
+## 1. Host One Website on EC2 Instance
 
 ### Install required packages
 
@@ -17,26 +17,28 @@ yum install python3 python3-pip
 git clone https://github.com/youhubs/astro.git
 ```
 
-### Create the virtual environment
+### Prepare for Running Flask App
+
+#### Create the virtual environment
 
 ```bash
 cd  astro
 python3 -m venv .venv
 ```
 
-### Activate the virtual environment
+#### Activate the virtual environment
 
 ```bash
 source .venv/bin/activate
 ```
 
-### Install required python packages
+#### Install required python packages
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### Verify if it works by running
+#### Verify if it works by running
 
 ```bash
 python3 app.py
@@ -47,13 +49,15 @@ When you “run” flask, you are actually running Werkzeug’s development WSGI
 
 Since Werkzeug is only for development, we have to use Gunicorn, which is a production-ready WSGI server, to serve our application.
 
-### Install Gunicorn using the below command
+### Install & Setup Gunicorn Server
+
+#### Install Gunicorn
 
 ```bash
 pip install gunicorn
 ```
 
-### Run Gunicorn Server
+#### Run Gunicorn Server
 
 ```bash
 gunicorn --workers 3 --bind 0.0.0.0:8000 app:app
@@ -74,10 +78,10 @@ We will be adding 3 parts to systemd Unit file — Unit, Service, Install
 With that said, create an unit file in the /etc/systemd/system directory
 
 ```bash
-vim /etc/systemd/system/astro-web.service
+vim /etc/systemd/system/web-astro.service
 ```
 
-### Then add this into the file
+#### Then add this into the file
 
 ```bash
 [Unit]
@@ -91,20 +95,20 @@ ExecStart=/home/ec2-user/astro/.venv/bin/gunicorn -b localhost:8000 app:app
 Restart=always
 StandardOutput=syslog
 StandardError=syslog
-SyslogIdentifier=astro-web
+SyslogIdentifier=web-astro
 [Install]
 WantedBy=multi-user.target
 ```
 
-### Then enable the service
+#### Then enable the service
 
 ```bash
 sudo systemctl daemon-reload
-sudo systemctl start astro-web
-sudo systemctl enable astro-web
+sudo systemctl start web-astro
+sudo systemctl enable web-astro
 ```
 
-### Check if the app is running with
+#### Check if the app is running with
 
 ```bash
 curl localhost:8000
@@ -113,7 +117,7 @@ curl localhost:8000
 Run Nginx Webserver to accept and route request to Gunicorn
 Finally, we set up Nginx as a reverse-proxy to accept the requests from the user and route it to gunicorn.
 
-### Install Nginx
+### Install Nginx and Configuration
 
 ```bash
 yum install nginx
@@ -126,21 +130,21 @@ sudo systemctl start nginx
 sudo systemctl enable nginx
 ```
 
-Add the following code to the config file >> **/etc/nginx/conf.d/astro-web.conf**
+Add the following code to the config file >> **/etc/nginx/conf.d/web-astro.conf**
 
 **Import**: this is to register the service
 
 ```json
-upstream astro-web {
+upstream web-astro {
     server 127.0.0.1:8000;
 }
 ```
 
-Add a proxy_pass to astro-web at location / >> **/etc/nginx/default.d/astro.conf**
+Add a proxy_pass to web-astro at location / >> **/etc/nginx/default.d/astro.conf**
 
 ```json
 location / {
-    proxy_pass http://astro-web;
+    proxy_pass http://web-astro;
     proxy_set_header Host $host;
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -155,11 +159,11 @@ sudo nginx -t
 sudo systemctl restart nginx
 ```
 
-## Host Two Websites on EC2 Instance
+## 2. Host Two Websites on EC2 Instance
 
 ### Option 1: Different Domains (Server Blocks)
 
-#### 1. /etc/nginx/sites-available/astro-web.conf
+#### 1. /etc/nginx/sites-available/web-astro.conf
 
 ```json
 server {
@@ -167,7 +171,7 @@ server {
     server_name astrorobotics.us;
 
     location / {
-        proxy_pass http://astro-web;
+        proxy_pass http://web-astro;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -176,7 +180,7 @@ server {
 }
 ```
 
-#### 2. /etc/nginx/sites-available/blueberry-web.conf
+#### 2. /etc/nginx/sites-available/web-blueberry.conf
 
 ```json
 server {
@@ -184,7 +188,7 @@ server {
     server_name blueberry.example.com; # Replace with your domain
 
     location / {
-        proxy_pass http://blueberry-web;
+        proxy_pass http://web-blueberry;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -195,16 +199,16 @@ server {
 
 #### 3. Create symbolic links for the files in the /etc/nginx/sites-enabled directory
 
-For astro-web:
+For web-astro:
 
 ```bash
-sudo ln -s /etc/nginx/sites-available/astro-web.conf /etc/nginx/sites-enabled/astro-web.conf
+sudo ln -s /etc/nginx/sites-available/web-astro.conf /etc/nginx/sites-enabled/web-astro.conf
 ```
 
-For blueberry-web:
+For web-blueberry:
 
 ```bash
-sudo ln -s /etc/nginx/sites-available/blueberry-web.conf /etc/nginx/sites-enabled/blueberry-web.conf
+sudo ln -s /etc/nginx/sites-available/web-blueberry.conf /etc/nginx/sites-enabled/web-blueberry.conf
 ```
 
 ### Option 2: Different Paths
@@ -214,11 +218,11 @@ sudo ln -s /etc/nginx/sites-available/blueberry-web.conf /etc/nginx/sites-enable
 Place these upstream definitions in **/etc/nginx/conf.d/upstreams.conf** or directly in your main Nginx configuration file (**nginx.conf**), typically under the **http** block.
 
 ```json
-upstream astro-web {
+upstream web-astro {
     server 127.0.0.1:8000;
 }
 
-upstream blueberry-web {
+upstream web-blueberry {
     server 127.0.0.1:8001;
 }
 ```
@@ -232,7 +236,7 @@ server {
     # ... (other server config like 'listen' and 'server_name')
 
     location /astro/ {
-        proxy_pass http://astro-web;
+        proxy_pass http://web-astro;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -244,7 +248,7 @@ server {
     }
 
     location /blueberry/ {
-        proxy_pass http://blueberry-web;
+        proxy_pass http://web-blueberry;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -255,4 +259,20 @@ server {
         rewrite ^/blueberry/(.*)$ /$1 break;
     }
 }
+```
+
+### Ensure Gunicorn Services are Running
+
+Make sure your Gunicorn instances for both web-astro and web-blueberry are running and listening on the correct ports (8000 and 8001).
+
+```bash
+sudo systemctl status web-astro.service
+sudo systemctl status web-blueberry.service
+```
+
+or by using netstat:
+
+```bash
+netstat -tuln | grep 8000
+netstat -tuln | grep 8001
 ```
