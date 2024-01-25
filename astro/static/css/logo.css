@@ -23,3 +23,19 @@
         transform: scale(1.0);
     }
 }
+
+/* Media Query - If the screen size is less than or equal to 768px */
+@media screen and (max-width: 768px) {
+    .logo {
+        height: 80px;
+        /* Smaller size for small screens */
+        width: auto;
+    }
+
+    .dynamic-logo {
+        width: 100px;
+        /* Smaller size for small screens */
+        /* Keep the animation if you want it to continue on smaller screens */
+        animation: pulse 2s infinite;
+    }
+}

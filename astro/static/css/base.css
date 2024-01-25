@@ -24,14 +24,17 @@ footer {
     text-align: center;
     padding: 2px 0;
 }
+
 .footer-content {
     max-width: 800px;
     margin: 0 auto;
 }
+
 .contact-info {
     list-style: none;
     padding: 0;
 }
+
 .contact-info li {
     margin: 5px 0;
 }
@@ -44,6 +47,7 @@ footer {
     /* This will space out the images evenly */
     padding: 0;
 }
+
 .photo-item {
     flex-basis: calc(50% - 20px);
     /* Adjust for two images per row, assuming 20px total margin */
@@ -51,6 +55,7 @@ footer {
     /* This gives 10px margin on all sides of each photo */
     box-sizing: border-box;
 }
+
 .photo-item img {
     width: 100%;
     height: auto;
@@ -83,6 +88,7 @@ footer {
     opacity: 1;
     /* Full opacity initially */
 }
+
 .flash-messages.hide {
     opacity: 0;
     /* Fully transparent */
@@ -91,6 +97,7 @@ footer {
     transition: visibility 0s 0.5s, opacity 0.5s linear;
     /* Adjusts visibility after opacity transition */
 }
+
 .alert {
     display: inline-block;
     /* Display messages inline */
@@ -99,11 +106,13 @@ footer {
     padding: 1rem;
     /* Padding inside the alert boxes */
 }
+
 .alert-success {
     color: #3c763d;
     background-color: #dff0d8;
     border-color: #d6e9c6;
 }
+
 .alert-error {
     color: #a94442;
     background-color: #f2dede;
@@ -119,6 +128,31 @@ footer {
     border-radius: 4px;
     cursor: pointer;
 }
+
 .btn:hover {
     background-color: #0056b3;
+}
+
+/* Default styles for larger screens */
+h1 {
+    font-size: 2.5em;
+    /* Adjust as needed */
+}
+
+h2 {
+    font-size: 2em;
+    /* Adjust as needed */
+}
+
+/* Media Query for small screens */
+@media screen and (max-width: 768px) {
+    h1 {
+        font-size: 1.8em;
+        /* Smaller font size for small screens */
+    }
+
+    h2 {
+        font-size: 1.5em;
+        /* Smaller font size for small screens */
+    }
 }

@@ -14,3 +14,12 @@
     background-position: center;
     /* Adjust as needed: could be 'top', 'bottom', 'center', etc. */
 }
+
+/* Media Query for screens less than or equal to 768px */
+@media screen and (max-width: 768px) {
+    .carousel-item .view {
+        min-height: 300px;
+        /* Smaller height for smaller screens */
+        /* Maintain other styles or add additional styles if needed */
+    }
+}
