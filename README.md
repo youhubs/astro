@@ -161,6 +161,20 @@ sudo systemctl restart nginx
 
 ## 2. Host Two Websites on EC2 Instance
 
+### First Define the Upstreams
+
+Place these upstream definitions in **/etc/nginx/conf.d/upstreams.conf** or directly in your main Nginx configuration file (**nginx.conf**), typically under the **http** block.
+
+```json
+upstream web-astro {
+    server 127.0.0.1:8000;
+}
+
+upstream web-blueberry {
+    server 127.0.0.1:8001;
+}
+```
+
 ### Option 1: Different Domains (Server Blocks)
 
 #### 1. /etc/nginx/sites-available/web-astro.conf
@@ -213,23 +227,9 @@ sudo ln -s /etc/nginx/sites-available/web-blueberry.conf /etc/nginx/sites-enable
 
 ### Option 2: Different Paths
 
-#### 1. Define the Upstreams
+#### 1. Configure the Location Blocks
 
-Place these upstream definitions in **/etc/nginx/conf.d/upstreams.conf** or directly in your main Nginx configuration file (**nginx.conf**), typically under the **http** block.
-
-```json
-upstream web-astro {
-    server 127.0.0.1:8000;
-}
-
-upstream web-blueberry {
-    server 127.0.0.1:8001;
-}
-```
-
-#### 2. Configure the Location Blocks
-
-Then, in your server block (e.g., /etc/nginx/sites-available/default or /etc/nginx/default.d/locations.conf), set up the location directives to point to the respective upstreams based on the URL path.
+In your server block (e.g., /etc/nginx/sites-available/default or /etc/nginx/default.d/locations.conf), set up the location directives to point to the respective upstreams based on the URL path.
 
 ```json
 server {
@@ -241,7 +241,6 @@ server {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
-
         # Optional: Strip the path prefix if your app doesn't expect it
         proxy_set_header X-Original-URI $request_uri;
         rewrite ^/astro/(.*)$ /$1 break;
@@ -253,7 +252,6 @@ server {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
-
         # Optional: Strip the path prefix if your app doesn't expect it
         proxy_set_header X-Original-URI $request_uri;
         rewrite ^/blueberry/(.*)$ /$1 break;
@@ -261,18 +259,65 @@ server {
 }
 ```
 
-### Ensure Gunicorn Services are Running
+### Gunicorn Services Handling
 
 Make sure your Gunicorn instances for both web-astro and web-blueberry are running and listening on the correct ports (8000 and 8001).
 
 ```bash
 sudo systemctl status web-astro.service
 sudo systemctl status web-blueberry.service
+# Other commands
+sudo systemctl daemon-reload 
+sudo systemctl start service_name.service 
+sudo systemctl restart service-name.service 
+sudo systemctl enable service-name.service 
+sudo systemctl status service-name.service 
+sudo systemctl reload service_name.service 
+sudo systemctl disable service_name.service 
+sudo systemctl stop service-name 
 ```
 
-or by using netstat:
+### Port Handling
 
 ```bash
-netstat -tuln | grep 8000
-netstat -tuln | grep 8001
+sudo netstat -tulnp | grep ':8000' 
+sudo ss -tulnp | grep ':8000' 
+sudo kill PID 
+sudo kill PID1 PID2 ... 
+sudo systemctl stop service-name  # kill all the services
+```
+
+### Gunicorn Service Logging
+
+```bash
+sudo journalctl -u webhook-github.service
+sudo journalctl -u service-name.service 
+sudo journalctl -u service-name.service | grep 'some search term' 
+curl -X POST -H "Content-Type: application/json" -d '{"test": "data"}' localhost:8003/webhook 
+```
+
+### Nginx Server Handling
+
+```bash
+sudo nginx -t 
+sudo systemctl reload nginx 
+sudo systemctl restart nginx 
+sudo systemctl status nginx 
+```
+
+### Curl Handling
+
+```bash
+curl localhost:5000/webhook 
+curl -X POST localhost:5000/webhook 
+curl http://astrorobotics.us 
+curl -I http://astrorobotics.us 
+curl -v http://astrorobotics.us 
+```
+
+### Test Network Connectivity
+
+```bash
+ping 3.145.36.230 
+traceroute 3.145.36.230 
 ```
