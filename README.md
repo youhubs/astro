@@ -290,9 +290,11 @@ sudo systemctl stop service-name  # kill all the services
 ### Gunicorn Service Logging
 
 ```bash
+sudo tail -f /var/log/nginx/access.log 
+sudo tail -f /var/log/nginx/error.log 
+
 sudo journalctl -u service-name.service 
 sudo journalctl -u service-name.service | grep 'some search term' 
-curl -X POST -H "Content-Type: application/json" -d '{"test": "data"}' localhost:8003/webhook 
 ```
 
 ### Nginx Server Handling
@@ -312,6 +314,8 @@ curl -X POST localhost:5000/webhook
 curl http://astrorobotics.us 
 curl -I http://astrorobotics.us 
 curl -v http://astrorobotics.us 
+curl -X POST -H "Content-Type: application/json" -d '{"test": "data"}' localhost:8003/webhook 
+curl -X POST http://127.0.0.1:8005/webhook -H "Content-Type: application/json" -d '{"key": "value"}' 
 ```
 
 ### Test Network Connectivity
