@@ -290,7 +290,6 @@ sudo systemctl stop service-name  # kill all the services
 ### Gunicorn Service Logging
 
 ```bash
-sudo journalctl -u webhook-github.service
 sudo journalctl -u service-name.service 
 sudo journalctl -u service-name.service | grep 'some search term' 
 curl -X POST -H "Content-Type: application/json" -d '{"test": "data"}' localhost:8003/webhook 
