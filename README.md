@@ -93,8 +93,8 @@ Group=nginx
 WorkingDirectory=/home/ec2-user/astro
 ExecStart=/home/ec2-user/astro/.venv/bin/gunicorn -b localhost:8000 app:app
 Restart=always
-StandardOutput=syslog
-StandardError=syslog
+StandardOutput=journal
+StandardError=journal
 SyslogIdentifier=web-astro
 [Install]
 WantedBy=multi-user.target
@@ -258,6 +258,16 @@ server {
     }
 }
 ```
+
+## Add One More Server to EC2 Instance
+
+- Add a new Gunicorn Service
+
+- Add the new service to /etc/nginx/conf.d/upstreams.conf
+
+- Add a new Nginx server to /etc/nginx/sites-available/
+
+## Common Used Commands
 
 ### Gunicorn Services Handling
 
